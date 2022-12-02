@@ -31,7 +31,8 @@ def round1():
 
 def round2():
     data = read_data('./data/day_2.txt')
-
+    
+    # win, loss, draw
     results = {"X":0, "Y":3, "Z":6}
 
     totals = []
