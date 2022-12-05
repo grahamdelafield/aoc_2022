@@ -1,4 +1,5 @@
 from common_functions import read_data, chunk_item
+import cProfile
 
 DATA = read_data('./data/day_3.txt')
 
@@ -57,3 +58,5 @@ def round2(data):
 if __name__ == '__main__':
     round1(DATA)
     round2(DATA)
+    cProfile.run('round1(DATA)')
+    cProfile.run('round2(DATA)')
