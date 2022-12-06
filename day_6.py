@@ -4,9 +4,14 @@ import cProfile
 DATA = read_data('./data/day_6.txt')
 
 def parse(data, window_size):
+    # parse each line (only for tests)
     for d in data:
         i = 0
+
+        # grab packet
         window = d[i:i+window_size]
+        
+        # slide window until packet length == number unique chars, exit
         while len(window) != len(set(window)):
             i += 1
             window = d[i:i+window_size]
