@@ -6,4 +6,4 @@ def read_data(file):
 
 def chunk_item(data: list, size: int):
     for i in range(0, len(data), size):
-        yield data[i:i+3]
+        yield data[i:i+size]
