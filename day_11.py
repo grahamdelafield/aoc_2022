@@ -1,4 +1,5 @@
 import re
+import cProfile
 
 def dump_barrel(file):
     with open(file, 'r') as f:
@@ -76,3 +77,4 @@ def throw_round1(journal):
 if __name__ == '__main__':
     monkeys = dump_barrel('./data/day_11.txt')
     journal = study_monkeys(monkeys)
+    cProfile.run('throw_round1(journal)')
