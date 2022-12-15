@@ -1,5 +1,4 @@
 import re
-import cProfile
 
 def dump_barrel(file):
     with open(file, 'r') as f:
@@ -45,6 +44,7 @@ def study_monkeys(monkeys):
         }
     return res
 
+# @profile
 def throw_round1(journal):
     for i in range(20):
         for notes in journal.values():
@@ -67,7 +67,37 @@ def throw_round1(journal):
                     notes[worry%notes['test']==0]
                 )
                 journal[new_monkey]['items'].append(worry)
+    counts = [(k, v['ex_count']) for (k, v) in journal.items()]
+    counts = sorted(counts, key=lambda x: x[1], reverse=True)
+    print(counts[0][1]*counts[1][1])
+    return journal
 
+def throw_round2(journal):
+    tests = [v['test'] for v in journal.values()]
+    lcm = 1
+    for val in tests:
+        lcm *= val
+
+    for i in range(10_000):
+        for notes in journal.values():
+            for i in range(len(notes['items'])):
+                notes['ex_count'] += 1
+                worry = notes['items'].pop(0)
+                match notes['operation']:
+                    case '*':
+                        worry *= notes['op_val']
+                    case '\\':
+                        worry /= notes['op_val']
+                    case '+':
+                        worry += notes['op_val']
+                    case '-':
+                        worry -= notes['op_val']
+                    case '**':
+                        worry *= worry
+                worry = worry % lcm
+                remainder = worry%notes['test']
+                pass_to = notes[remainder==0]
+                journal[pass_to]['items'].append(worry)
     counts = [(k, v['ex_count']) for (k, v) in journal.items()]
     counts = sorted(counts, key=lambda x: x[1], reverse=True)
     print(counts[0][1]*counts[1][1])
@@ -77,4 +107,4 @@ def throw_round1(journal):
 if __name__ == '__main__':
     monkeys = dump_barrel('./data/day_11.txt')
     journal = study_monkeys(monkeys)
-    cProfile.run('throw_round1(journal)')
+    throw_round2(journal)
